@@ -27,7 +27,7 @@ Jeu::~Jeu() {
 void Jeu::demarrerJeu() {
     try {
         chargerItems("items.csv");
-        chargerMonstres("monsters.csv");
+        chargerMonstres("monstres.csv");
 
         cout << "Chargement des donnees reussi !" << endl;
 
@@ -86,7 +86,7 @@ void Jeu::afficherMenuPrincipal() {
 }
 
 void Jeu::demarrerCombat() {
-    cout << "Fonction à écrire" << endl;
+    cout << "Fonction a ecrire" << endl;
 }
 
 void Jeu::chargerItems(string nomFichier) {

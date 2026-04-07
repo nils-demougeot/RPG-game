@@ -21,5 +21,5 @@ void Joueur::soigner(int montant) {
 void Joueur::afficherStatistiques() const {
     cout << "--- STATS DE " << nom << " ---" << endl;
     cout << "HP: " << hpActuel << "/" << hpMax << endl;
-    cout << "Tués: " << monstresTues << " | Epargnés: " << monstresEpargnes << endl;
+    cout << "Tues: " << monstresTues << " | Epargnes: " << monstresEpargnes << endl;
 }
