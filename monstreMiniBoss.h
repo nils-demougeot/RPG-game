@@ -7,5 +7,7 @@ using namespace std;
 class MonstreMiniBoss : public Monstre {
 public:
     MonstreMiniBoss(string nom, int hp, int attaque, int defense, int mercyObjectif);
-    int getNbActionsActDisponibles() const override;
+    
+    int addAction(ActionACT* a) override; 
+    void afficherMonstre() const;
 };

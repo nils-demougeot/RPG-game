@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
+
+class ActionACT;
 
 class Monstre {
 protected: 
@@ -12,6 +15,8 @@ protected:
     int defense;
     int mercyObjectif;
     int mercyActuel;
+    string statut; 
+    vector<ActionACT*> actions;
 
 public:
     Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif);
@@ -22,5 +27,5 @@ public:
     bool estVaincu() const;
     bool peutEtreEpargne() const;
     
-    virtual int getNbActionsActDisponibles() const = 0; 
+    virtual int addAction(ActionACT* a) = 0;
 };
