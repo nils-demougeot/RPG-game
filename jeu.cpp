@@ -8,19 +8,13 @@ Jeu::Jeu() {
     victoires = 0;
 
     joueur = new Joueur("Heros", 100);
-    bestiaire = new Bestiaire();
 }
 
 Jeu::~Jeu() {
     delete joueur;
-    delete bestiaire;
 
     for (Monstre* m : monstres) {
         delete m;
-    }
-
-    for (ActionACT* a : actionsAct) {
-        delete a;
     }
 }
 
@@ -39,7 +33,7 @@ void Jeu::demarrerJeu() {
             switch (choix) {
                 case 1:
                     cout << "Ouverture du bestiaire..." << endl;
-                    bestiaire->afficherBestiaire();
+                    afficherBestiaire();
                     break;
 
                 case 2:
@@ -189,3 +183,8 @@ void Jeu::chargerMonstres(string nomFichier) {
 
 
 void Jeu::verifierConditionFin() {}
+
+void Jeu::afficherBestiaire(){
+    cout << "--- BESTIAIRE ---" << endl;
+    cout << "Aucun monstre vaincu pour le moment." << endl;
+}
