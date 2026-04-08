@@ -101,7 +101,6 @@ void Jeu::chargerItems(string nomFichier) {
 
     while (getline(file, ligne)) {
         ligneNum++;
-        // Ignorer les lignes vides
         if (ligne.empty()) continue;
 
         stringstream ss(ligne);
@@ -113,17 +112,15 @@ void Jeu::chargerItems(string nomFichier) {
             !getline(ss, valeurStr, ',') ||
             !getline(ss, quantiteStr)) {
             std::cout << "Ligne mal formee (items) ignoree à la ligne " << ligneNum << " : " << ligne << std::endl;
-            continue; // passer à la ligne suivante
+            continue;
         }
 
         try {
             int valeurSoin = std::stoi(valeurStr);
             int quantite = std::stoi(quantiteStr);
 
-            // Créer un item dynamique
             Item* item = new Item(nom, type, valeurSoin, quantite);
 
-            // Affichage pour debug
             std::cout << "[ITEM] " << nom << " | type: " << type
                       << " | valeur: " << valeurSoin
                       << " | quantite: " << quantite << std::endl;
@@ -170,7 +167,6 @@ void Jeu::chargerMonstres(string nomFichier) {
 
         Monstre* m = nullptr;
 
-        // Création selon le type
         if (categorie == "NORMAL") {
             m = new MonstreNormal(nom, hp, attaque, defense, mercy);
         }
