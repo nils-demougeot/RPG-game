@@ -7,7 +7,6 @@
 #include "MonstreMiniBoss.h"
 #include "MonstreBoss.h"
 #include "ActionACT.h"
-#include "Bestiaire.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -20,9 +19,7 @@ private:
     int victoires;
     
     Joueur* joueur; 
-    Bestiaire* bestiaire;
     vector<Monstre*> monstres;      
-    vector<ActionACT*> actionsAct;  
 
 public:
     Jeu();
@@ -31,6 +28,7 @@ public:
     void demarrerJeu();
     void afficherMenuPrincipal();
     void demarrerCombat();
+    void afficherBestiaire();
 
 private:
     void chargerItems(string nomFichier);
