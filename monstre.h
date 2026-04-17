@@ -19,13 +19,14 @@ protected:
     vector<ActionACT*> actions;
 
 public:
-    Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif);
+    Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif, int mercyActuel);
     virtual ~Monstre() = default; 
     
     void recevoirDegats(int montant);
     void modifierMercy(int montant);
     bool estVaincu() const;
     bool peutEtreEpargne() const;
+    virtual void afficherMonstre() const = 0;
     
     virtual int addAction(ActionACT* a) = 0;
 };

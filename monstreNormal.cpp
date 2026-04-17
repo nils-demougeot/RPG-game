@@ -3,7 +3,7 @@
 #include "ActionACT.h"
 
 MonstreNormal::MonstreNormal(string nom, int hp, int attaque, int defense, int mercyObjectif)
-    : Monstre(nom, "NORMAL", hp, attaque, defense, mercyObjectif) {}
+    : Monstre(nom, "NORMAL", hp, attaque, defense, mercyObjectif, 50) {}
 
     int MonstreNormal::addAction(ActionACT* a) {
     if (actions.size() < 2) {

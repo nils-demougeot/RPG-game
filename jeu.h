@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <map>
 
 using namespace std;
 
@@ -19,8 +20,13 @@ private:
     int victoires;
     
     Joueur* joueur; 
-    vector<Monstre*> monstres;      
+    vector<Monstre*> monstres;     
+    map<string, ActionACT*> catalogueActions; 
+    void chargerItems(string nomFichier);
+    void chargerMonstres(string nomFichier);
+    void verifierConditionFin();
 
+    void initialiserCatalogue();
 public:
     Jeu();
     ~Jeu(); 
@@ -30,8 +36,4 @@ public:
     void demarrerCombat();
     void afficherBestiaire();
 
-private:
-    void chargerItems(string nomFichier);
-    void chargerMonstres(string nomFichier);
-    void verifierConditionFin();
 };

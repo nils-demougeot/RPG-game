@@ -1,7 +1,7 @@
 #include "monstre.h"
 #include <iostream>
 
-Monstre::Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif)
+Monstre::Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif, int mercyActuel)
     : nom(nom), categorie(categorie), hp(hp), attaque(attaque), defense(defense), 
       mercyObjectif(mercyObjectif), mercyActuel(0) {}
 

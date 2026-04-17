@@ -6,8 +6,9 @@ using namespace std;
 Jeu::Jeu() {
     enCours = true;
     victoires = 0;
-
     joueur = new Joueur("Heros", 100);
+
+    initialiserCatalogue();
 }
 
 Jeu::~Jeu() {
@@ -16,6 +17,27 @@ Jeu::~Jeu() {
     for (Monstre* m : monstres) {
         delete m;
     }
+
+    for (auto const& paire : catalogueActions) {
+        delete paire.second;
+    }
+    catalogueActions.clear();
+}
+
+void Jeu::initialiserCatalogue() {
+    // Actions positives
+    catalogueActions["JOKE"] = new ActionACT("JOKE", "Tu racontes une blague un peu nulle.", 15);
+    catalogueActions["COMPLIMENT"] = new ActionACT("COMPLIMENT", "Tu dis au monstre qu'il est effrayant.", 25);
+    catalogueActions["DISCUSS"] = new ActionACT("DISCUSS", "Tu parles de la pluie et du beau temps.", 10);
+    catalogueActions["OBSERVE"] = new ActionACT("OBSERVE", "Tu observes attentivement ton adversaire.", 5);
+    catalogueActions["PET"] = new ActionACT("PET", "Tu tentes de caresser la bete.", 30);
+    catalogueActions["OFFER_SNACK"] = new ActionACT("OFFER_SNACK", "Tu lui offres un petit biscuit.", 40);
+    catalogueActions["REASON"] = new ActionACT("REASON", "Tu tentes une approche diplomatique.", 20);
+    catalogueActions["DANCE"] = new ActionACT("DANCE", "Tu executes une petite danse de la paix.", 10);
+
+    // Actions négatives (exigées par le sujet)
+    catalogueActions["INSULT"] = new ActionACT("INSULT", "Tu traites le monstre de sac a puces !", -20);
+    catalogueActions["MOCK"] = new ActionACT("MOCK", "Tu te moques ouvertement de sa posture de combat.", -15);
 }
 
 void Jeu::demarrerJeu() {
@@ -24,6 +46,15 @@ void Jeu::demarrerJeu() {
         chargerMonstres("monstres.csv");
 
         cout << "Chargement des donnees reussi !" << endl;
+
+        // --- DEBUT DU TEST ---
+        cout << "\n===== TEST VERIFICATION DES MONSTRES =====" << endl;
+        for (Monstre* m : monstres) {
+            // Assure-toi que afficherMonstre() est bien déclarée comme 'virtual' dans Monstre.h
+            m->afficherMonstre(); 
+        }
+        cout << "==========================================" << endl;
+        // --- FIN DU TEST ---
 
         int choix;
         do {
@@ -142,16 +173,27 @@ void Jeu::chargerMonstres(string nomFichier) {
 
         string nom, categorie;
         string hpStr, atkStr, defStr, mercyStr;
+        string act1, act2, act3, act4; 
 
-        if (!getline(ss, nom, ',') ||
-            !getline(ss, categorie, ',') ||
+        if (!getline(ss, categorie, ',') ||
+            !getline(ss, nom, ',') ||
             !getline(ss, hpStr, ',') ||
             !getline(ss, atkStr, ',') ||
             !getline(ss, defStr, ',') ||
-            !getline(ss, mercyStr)) {
+            !getline(ss, mercyStr, ',') ||
+            !getline(ss, act1, ',') ||
+            !getline(ss, act2, ',') ||
+            !getline(ss, act3, ',') ||
+            !getline(ss, act4)) {
 
-            cout << "Ligne mal formee ignoree : " << ligne << endl;
+            if(ligne != "\r" && !ligne.empty()) { 
+                cout << "Ligne mal formee ignoree (monstres) : " << ligne << endl;
+            }
             continue;
+        }
+
+        if (!act4.empty() && act4.back() == '\r') {
+            act4.pop_back();
         }
 
         int hp = stoi(hpStr);
@@ -175,9 +217,21 @@ void Jeu::chargerMonstres(string nomFichier) {
             continue;
         }
 
-        monstres.push_back(m);
+        // --- AJOUT DES ACTIONS AU MONSTRE ---
+        string actionsLues[4] = {act1, act2, act3, act4};
 
-        cout << "[MONSTRE] " << nom << " (" << categorie << ")" << endl;
+        for (int i = 0; i < 4; i++) {
+            if (actionsLues[i] != "-" && !actionsLues[i].empty()) {
+                
+                if (catalogueActions.count(actionsLues[i]) > 0) {
+                    m->addAction(catalogueActions[actionsLues[i]]);
+                } else {
+                    cout << "Attention : l'action '" << actionsLues[i] << "' n'existe pas dans le catalogue !" << endl;
+                }
+            }
+        }
+
+        monstres.push_back(m);
     }
 }
 
