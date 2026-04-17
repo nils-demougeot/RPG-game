@@ -50,7 +50,6 @@ void Jeu::demarrerJeu() {
         // --- DEBUT DU TEST ---
         cout << "\n===== TEST VERIFICATION DES MONSTRES =====" << endl;
         for (Monstre* m : monstres) {
-            // Assure-toi que afficherMonstre() est bien déclarée comme 'virtual' dans Monstre.h
             m->afficherMonstre(); 
         }
         cout << "==========================================" << endl;
@@ -110,8 +109,87 @@ void Jeu::afficherMenuPrincipal() {
     cout << "Votre choix : ";
 }
 
+#include <random>
+
 void Jeu::demarrerCombat() {
-    cout << "Fonction a ecrire" << endl;
+    if (monstres.empty()) {
+        cout << "Aucun monstre disponible pour combattre !" << endl;
+        return;
+    }
+
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> distMonstre(0, monstres.size() - 1);
+    
+    Monstre* adversaire = monstres[distMonstre(gen)];
+
+    cout << "\nUn " << adversaire->getNom() << " (" << adversaire->getCategorie() << ") sauvage apparait !" << endl;
+
+    bool combatEnCours = true;
+
+    while (combatEnCours) {
+        
+        cout << "\n=== TON TOUR ===" << endl;
+        adversaire->afficherMonstre();
+        cout << "\n1. FIGHT\n2. ACT\n3. ITEM\n4. MERCY" << endl;
+        cout << "Que fais-tu ? : ";
+        
+        int choix;
+        cin >> choix;
+
+        switch (choix) {
+            case 1: {
+                uniform_int_distribution<> distDegatsJoueur(0, adversaire->getHpMax());
+                int degats = distDegatsJoueur(gen);
+                
+                cout << "\nTu attaques " << adversaire->getNom() << " !" << endl;
+                if (degats == 0) {
+                    cout << "Mince, ton attaque rate !" << endl;
+                } else {
+                    cout << "Tu infliges " << degats << " points de degats." << endl;
+                    adversaire->recevoirDegats(degats);
+                }
+                break;
+            }
+            case 2: // ACT
+                cout << "\n[TODO: Implementer l'utilisation du catalogue d'actions]" << endl;
+                break;
+            case 3: // ITEM
+                cout << "\n[TODO: Implementer l'inventaire]" << endl;
+                break;
+            case 4: // MERCY
+                cout << "\n[TODO: Implementer la condition de fuite pacifique]" << endl;
+                break;
+            default:
+                cout << "Choix invalide, tu perds ton tour !" << endl;
+        }
+
+        if (adversaire->estVaincu()) {
+            cout << "\nBravo, tu as vaincu " << adversaire->getNom() << " !" << endl;
+            victoires++;
+            joueur->ajouterMonstreTue();
+            combatEnCours = false;
+            continue;
+        }
+
+        cout << "\n=== TOUR DE " << adversaire->getNom() << " ===" << endl;
+        
+        uniform_int_distribution<> distDegatsMonstre(0, joueur->getHpMax());
+        int degatsMonstre = distDegatsMonstre(gen);
+
+        if (degatsMonstre == 0) {
+            cout << adversaire->getNom() << " trebuche et rate son attaque !" << endl;
+        } else {
+            cout << adversaire->getNom() << " t'attaque et t'inflige " << degatsMonstre << " degats !" << endl;
+            joueur->recevoirDegats(degatsMonstre);
+        }
+
+        if (joueur->getHpActuel() <= 0) {
+            cout << "\nTu as peri au combat... GAME OVER." << endl;
+            combatEnCours = false;
+            enCours = false;
+        }
+    }
 }
 
 void Jeu::chargerItems(string nomFichier) {

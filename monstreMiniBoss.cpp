@@ -31,3 +31,7 @@ MonstreMiniBoss::MonstreMiniBoss(string nom, int hp, int attaque, int defense, i
     }
     cout << "-----------------------" << endl;
     }
+
+    const std::vector<ActionACT*>& MonstreMiniBoss::getActions() const {
+        return actions;
+    }

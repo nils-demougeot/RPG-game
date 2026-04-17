@@ -1,9 +1,9 @@
 #include "monstre.h"
 #include <iostream>
 
-Monstre::Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif, int mercyActuel)
+Monstre::Monstre(string nom, string categorie, int hp, int attaque, int defense, int mercyObjectif, int mercyInitial)
     : nom(nom), categorie(categorie), hp(hp), attaque(attaque), defense(defense), 
-      mercyObjectif(mercyObjectif), mercyActuel(0) {}
+      mercyObjectif(mercyObjectif), mercyActuel(mercyInitial), hpMax(hp) {}
 
 void Monstre::recevoirDegats(int montant) {
     hp -= montant;
@@ -19,3 +19,15 @@ void Monstre::modifierMercy(int montant) {
 bool Monstre::estVaincu() const { return hp == 0; }
 
 bool Monstre::peutEtreEpargne() const { return mercyActuel >= mercyObjectif; }
+
+string Monstre::getNom() const {
+    return nom;
+}
+
+string Monstre::getCategorie() const {
+    return categorie;
+}
+
+int Monstre::getHpMax() const {
+    return hpMax;
+}

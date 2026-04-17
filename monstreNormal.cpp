@@ -31,3 +31,7 @@ MonstreNormal::MonstreNormal(string nom, int hp, int attaque, int defense, int m
     }
     cout << "-----------------------" << endl;
     }
+    
+    const std::vector<ActionACT*>& MonstreNormal::getActions() const {
+        return actions;
+    } 

@@ -9,4 +9,5 @@ public:
     
     int addAction(ActionACT* a) override; 
     void afficherMonstre() const;
+    const std::vector<ActionACT*>& getActions() const override;
 };

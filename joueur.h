@@ -23,4 +23,7 @@ public:
     void recevoirDegats(int montant);
     void soigner(int montant);
     void afficherStatistiques() const;
+    void ajouterMonstreTue() { monstresTues++; }
+    void ajouterMonstreEpargne() { monstresEpargnes++; }
+    int getHpMax() const { return hpMax; }
 };
