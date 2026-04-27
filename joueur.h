@@ -26,4 +26,6 @@ public:
     void ajouterMonstreTue() { monstresTues++; }
     void ajouterMonstreEpargne() { monstresEpargnes++; }
     int getHpMax() const { return hpMax; }
+    void ajouterItem(Item* item);
+    vector<Item*>& getInventaire();
 };

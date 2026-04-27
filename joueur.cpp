@@ -23,3 +23,11 @@ void Joueur::afficherStatistiques() const {
     cout << "HP: " << hpActuel << "/" << hpMax << endl;
     cout << "Tues: " << monstresTues << " | Epargnes: " << monstresEpargnes << endl;
 }
+
+void Joueur::ajouterItem(Item* item) {
+    inventaire.push_back(item);
+}
+
+vector<Item*>& Joueur::getInventaire() {
+    return inventaire;
+}

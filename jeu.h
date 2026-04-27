@@ -11,6 +11,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <map>
+#include <random>
 
 using namespace std;
 
@@ -18,13 +19,17 @@ class Jeu {
 private:
     bool enCours;
     int victoires;
+    vector<Item*> poolItems;
+    
     
     Joueur* joueur; 
     vector<Monstre*> monstres;     
     map<string, ActionACT*> catalogueActions; 
+    Item* tirerItemAleatoire(mt19937& gen);
     void chargerItems(string nomFichier);
     void chargerMonstres(string nomFichier);
     void verifierConditionFin();
+    void donnerItemsDeDepart();
 
     void initialiserCatalogue();
 public:

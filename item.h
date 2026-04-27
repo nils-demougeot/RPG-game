@@ -9,13 +9,20 @@ class Item {
 private:
     string nom;
     string type;
-    int valeurSoin;
+    int valeur;
     int quantite;
+    string rarete;
 
 public:
-    Item(string nom, string type, int valeurSoin, int quantite);
+    Item(string nom, string type, int valeur, int quantite, string rarete);
     
     void utiliser(Joueur* j);
     int getQuantite() const;
     void reduireQuantite();
+
+    string getNom() const;
+    string getType() const;
+    int getValeur() const;
+    string getRarete() const;
+
 };
