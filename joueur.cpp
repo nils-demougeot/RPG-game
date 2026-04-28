@@ -2,11 +2,15 @@
 #include <iostream>
 
 Joueur::Joueur(string nom, int hpMax) 
-    : nom(nom), hpMax(hpMax), hpActuel(hpMax), monstresTues(0), monstresEpargnes(0) {}
+    : nom(nom), hpMax(hpMax), hpActuel(hpMax), attaque(10), defense(3), monstresTues(0), monstresEpargnes(0) {}
 
 string Joueur::getNom() const { return nom; }
 
 int Joueur::getHpActuel() const { return hpActuel; }
+
+int Joueur::getAtk() const { return attaque; }
+
+int Joueur::getDef() const { return defense; }
 
 void Joueur::recevoirDegats(int montant) {
     hpActuel -= montant;
@@ -21,7 +25,29 @@ void Joueur::soigner(int montant) {
 void Joueur::afficherStatistiques() const {
     cout << "--- STATS DE " << nom << " ---" << endl;
     cout << "HP: " << hpActuel << "/" << hpMax << endl;
+    cout << "ATK: " << attaque << " | DEF: " << defense << endl;
     cout << "Tues: " << monstresTues << " | Epargnes: " << monstresEpargnes << endl;
+}
+
+void Joueur::afficherInventaire() const {
+    cout << "\n=== INVENTAIRE ===" << endl;
+
+    if (inventaire.empty()) {
+        cout << "Inventaire vide." << endl;
+        return;
+    }
+
+    for (int i = 0; i < inventaire.size(); i++) {
+        Item* item = inventaire[i];
+
+        cout << i << ". "
+             << item->getNom()
+             << " (x" << item->getQuantite() << ")"
+             << " | Type: " << item->getType()
+             << " | Valeur: " << item->getValeur()
+             << " | Rarete: " << item->getRarete()
+             << endl;
+    }
 }
 
 void Joueur::ajouterItem(Item* item) {
@@ -30,4 +56,12 @@ void Joueur::ajouterItem(Item* item) {
 
 vector<Item*>& Joueur::getInventaire() {
     return inventaire;
+}
+
+void Joueur::augmenterAtk(int val) {
+    attaque += val;
+}
+
+void Joueur::augmenterDef(int val) {
+    defense += val;
 }

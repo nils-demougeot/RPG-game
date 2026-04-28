@@ -31,3 +31,11 @@ string Monstre::getCategorie() const {
 int Monstre::getHpMax() const {
     return hpMax;
 }
+
+int Monstre::getAtk() const {
+    return hp;
+}
+
+int Monstre::getDef() const {
+    return defense;
+}

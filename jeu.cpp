@@ -82,8 +82,7 @@ void Jeu::demarrerJeu() {
                     break;
 
                 case 4:
-                    cout << "Items du joueur..." << endl;
-                    // joueur->afficherInventaire();
+                    joueur->afficherInventaire();
                     break;
 
                 case 0:
@@ -143,16 +142,33 @@ void Jeu::demarrerCombat() {
 
         switch (choix) {
             case 1: {
-                uniform_int_distribution<> distDegatsJoueur(0, adversaire->getHpMax());
-                int degats = distDegatsJoueur(gen);
-                
                 cout << "\nTu attaques " << adversaire->getNom() << " !" << endl;
+
+                int atkJoueur = joueur->getAtk();
+                int defMonstre = adversaire->getDef();
+
+                // petite variation aléatoire
+                uniform_int_distribution<> variance(0, atkJoueur / 4);
+                int bonus = variance(gen);
+
+                int degats = atkJoueur + bonus - defMonstre;
+
+                if (degats < 0) degats = 0;
+
+                // critique (10%)
+                uniform_int_distribution<> critDist(1, 100);
+                if (critDist(gen) > 90) {
+                    degats *= 2;
+                    cout << "Coup critique !" << endl;
+                }
+
                 if (degats == 0) {
-                    cout << "Mince, ton attaque rate !" << endl;
+                    cout << "L'épée te glisse entre les doigts, l'attaque n'inflige aucun degat..." << endl;
                 } else {
-                    cout << "Tu infliges " << degats << " points de degats." << endl;
+                    cout << "Tu infliges " << degats << " degats !" << endl;
                     adversaire->recevoirDegats(degats);
                 }
+
                 break;
             }
             case 2: // ACT
@@ -161,11 +177,10 @@ void Jeu::demarrerCombat() {
             case 3: { // ITEM
                 vector<Item*>& inv = joueur->getInventaire();
 
-                cout << "\n=== INVENTAIRE ===" << endl;
+                joueur->afficherInventaire();
 
-                for (int i = 0; i < inv.size(); i++) {
-                    cout << i << ". " << inv[i]->getNom()
-                        << " x" << inv[i]->getQuantite() << endl;
+                if (inv.empty()) {
+                    break;
                 }
 
                 cout << "Choisis un item : ";
@@ -200,6 +215,15 @@ void Jeu::demarrerCombat() {
                     adversaire->modifierMercy(val);
                     cout << "La mercy augmente de " << val << " !" << endl;
                 }
+                else if (type == "ATK") {
+                    joueur->augmenterAtk(val);
+                    cout << "Ton attaque augmente de " << val << " !" << endl;
+                }
+                else if (type == "DEF") {
+                    joueur->augmenterDef(val);
+                    cout << "Ta defense augmente de " << val << " !" << endl;
+                }
+
 
                 // consommation
                 item->reduireQuantite();
@@ -241,8 +265,23 @@ void Jeu::demarrerCombat() {
 
         cout << "\n=== TOUR DE " << adversaire->getNom() << " ===" << endl;
         
-        uniform_int_distribution<> distDegatsMonstre(0, joueur->getHpMax());
-        int degatsMonstre = distDegatsMonstre(gen);
+        int atkMonstre = adversaire->getAtk();
+        int defJoueur = joueur->getDef();
+
+        // variation aléatoire
+        uniform_int_distribution<> variance(0, atkMonstre / 4);
+        int bonus = variance(gen);
+
+        int degatsMonstre = atkMonstre + bonus - defJoueur;
+
+        if (degatsMonstre < 0) degatsMonstre = 0;
+
+        // critique (10%)
+        uniform_int_distribution<> critDist(1, 100);
+        if (critDist(gen) > 90) {
+            degatsMonstre *= 2;
+            cout << adversaire->getNom() << " porte un COUP CRITIQUE !" << endl;
+        }
 
         if (degatsMonstre == 0) {
             cout << adversaire->getNom() << " trebuche et rate son attaque !" << endl;

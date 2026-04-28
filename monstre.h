@@ -25,6 +25,8 @@ public:
     string getNom() const;
     string getCategorie() const;
     int getHpMax() const;
+    int getAtk() const;
+    int getDef() const;
     
     void recevoirDegats(int montant);
     void modifierMercy(int montant);
