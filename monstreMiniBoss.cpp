@@ -26,7 +26,7 @@ MonstreMiniBoss::MonstreMiniBoss(string nom, int hp, int attaque, int defense, i
     } else {
         // On parcourt la liste des actions
         for (size_t i = 0; i < actions.size(); i++) {
-            cout << "  - Action " << i + 1 << endl; 
+            cout << "  - " << actions[i]->getIdentifiant() << endl;
         }
     }
     cout << "-----------------------" << endl;

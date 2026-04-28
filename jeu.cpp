@@ -128,17 +128,42 @@ void Jeu::demarrerCombat() {
 
     cout << "\nUn " << adversaire->getNom() << " (" << adversaire->getCategorie() << ") sauvage apparait !" << endl;
 
+    int numTour = 1;
     bool combatEnCours = true;
 
     while (combatEnCours) {
+
+        cout << "\n==================================================" << endl;
+        cout << ">>>          TOUR " << numTour << " <<<" << endl;
+        cout << "\n==================================================\n" << endl;
         
-        cout << "\n=== TON TOUR ===" << endl;
+        cout << "[ JOUEUR : " << joueur->getNom() 
+             << " | HP : " << joueur->getHpActuel() << " ]" << endl;
+             
+        cout << "          VS" << endl;
+        
         adversaire->afficherMonstre();
-        cout << "\n1. FIGHT\n2. ACT\n3. ITEM\n4. MERCY" << endl;
-        cout << "Que fais-tu ? : ";
+        
+        cout << "\n+---------------------------------------+" << endl;
+        cout << "|              QUE FAIRE ?              |" << endl;
+        cout << "+-------------------+-------------------+" << endl;
+        cout << "|  [1] FIGHT        |  [2] ACT          |" << endl;
+        cout << "|  [3] ITEM         |  [4] MERCY        |" << endl;
+        cout << "+-------------------+-------------------+" << endl;
+        cout << "|               [0] FUIR                |" << endl;
+        cout << "+-------------------+-------------------+" << endl;
+        cout << ">> Votre choix : ";
         
         int choix;
         cin >> choix;
+
+        if (choix == 0) {
+            cout << "\nTu fuis lachement le combat... L'aventure s'arrete ici !" << endl;
+            combatEnCours = false;
+            return;
+        }
+
+        cout << "\n--------------------------------------------------" << endl;
 
         switch (choix) {
             case 1: {
@@ -165,14 +190,30 @@ void Jeu::demarrerCombat() {
                 if (degats == 0) {
                     cout << "L'épée te glisse entre les doigts, l'attaque n'inflige aucun degat..." << endl;
                 } else {
-                    cout << "Tu infliges " << degats << " degats !" << endl;
+                    cout << "=> Tu infliges [" << degats << "] degats ! <=" << endl;
                     adversaire->recevoirDegats(degats);
                 }
 
                 break;
             }
             case 2: // ACT
-                cout << "\n[TODO: Implementer l'utilisation du catalogue d'actions]" << endl;
+                cout << "\nActions disponibles :" << endl;
+                
+                // On appelle getActions() directement dans la boucle
+                for (size_t i = 0; i < adversaire->getActions().size(); ++i) {
+                    cout << i + 1 << ". " << adversaire->getActions()[i]->getIdentifiant() << endl;
+                }
+                
+                int choixAct;
+                cout << "Quelle action ? : "; 
+                cin >> choixAct;
+                
+                if (choixAct > 0 && choixAct <= (int)adversaire->getActions().size()) {
+                    // On appelle getActions() directement pour exécuter
+                    adversaire->getActions()[choixAct - 1]->executer(adversaire);
+                } else {
+                    cout << "Tu begayes et restes plante la sans rien faire..." << endl;
+                }
                 break;
             case 3: { // ITEM
                 vector<Item*>& inv = joueur->getInventaire();
@@ -230,7 +271,18 @@ void Jeu::demarrerCombat() {
             break;
             }
             case 4: // MERCY
-                cout << "\n[TODO: Implementer la condition de fuite pacifique]" << endl;
+                if (adversaire->peutEtreEpargne()) {
+                    cout << "\nTu as apaise " << adversaire->getNom() << ". Tu l'epargnes et le combat prend fin pacifiquement !" << endl;
+                    
+                    joueur->ajouterMonstreEpargne();
+                    victoires++;
+                    combatEnCours = false;
+                    
+                    continue; 
+                } else {
+                    cout << "\n" << adversaire->getNom() << " te regarde d'un air menacant. Il ne veut pas encore s'arreter !" << endl;
+                    cout << "(Astuce : Utilise ACT pour faire monter sa jauge de Mercy a " << adversaire->getMercyObjectif() << ")" << endl;
+                }
                 break;
             default:
                 cout << "Choix invalide, tu perds ton tour !" << endl;
@@ -263,7 +315,9 @@ void Jeu::demarrerCombat() {
             continue;
         }
 
-        cout << "\n=== TOUR DE " << adversaire->getNom() << " ===" << endl;
+        cout << "\n==================================================" << endl;
+        cout << ">>> TOUR DE "<< adversaire->getNom() <<" <<<" << endl;
+        cout << "--------------------------------------------------" << endl;
         
         int atkMonstre = adversaire->getAtk();
         int defJoueur = joueur->getDef();
@@ -294,6 +348,12 @@ void Jeu::demarrerCombat() {
             cout << "\nTu as peri au combat... GAME OVER." << endl;
             combatEnCours = false;
             enCours = false;
+        }
+
+        if (combatEnCours) {
+            cout << "\n(Appuyez sur Entree pour continuer...)" << endl;
+            cin.ignore(10000, '\n');
+            cin.get();
         }
     }
 }

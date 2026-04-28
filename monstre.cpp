@@ -33,9 +33,13 @@ int Monstre::getHpMax() const {
 }
 
 int Monstre::getAtk() const {
-    return hp;
+    return attaque;
 }
 
 int Monstre::getDef() const {
     return defense;
+}
+
+int Monstre::getMercyObjectif() const {
+    return mercyObjectif;
 }

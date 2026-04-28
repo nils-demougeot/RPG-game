@@ -14,5 +14,6 @@ private:
 public:
     ActionACT(string identifiant, string texte, int impactMercy);
     
+    string getIdentifiant() const;
     void executer(Monstre* m);
 };

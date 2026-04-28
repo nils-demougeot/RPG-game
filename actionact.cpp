@@ -9,3 +9,7 @@ void ActionACT::executer(Monstre* m) {
     cout << texte << endl;
     m->modifierMercy(impactMercy);
 }
+
+string ActionACT::getIdentifiant() const {
+    return identifiant;
+}

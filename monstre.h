@@ -28,6 +28,7 @@ public:
     int getAtk() const;
     int getDef() const;
     
+    int getMercyObjectif() const;
     void recevoirDegats(int montant);
     void modifierMercy(int montant);
     bool estVaincu() const;
