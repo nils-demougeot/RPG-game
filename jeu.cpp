@@ -551,7 +551,7 @@ void Jeu::verifierConditionFin() {
 
     if (victoires >= 10) {
         enCours = false;
-        
+
         cout << "\n==================================================" << endl;
         cout << "                  FIN DE L'AVENTURE                 " << endl;
         cout << "==================================================" << endl;
@@ -571,6 +571,7 @@ void Jeu::verifierConditionFin() {
         else {
             cout << "*** FIN NEUTRE ***" << endl;
             cout << "Tu as survecu, mais a quel prix ? (" << tues << " monstres tues, " << epargnes << " epargnes)." << endl;
+            cout << "Bilan : " << tues << " morts et " << epargnes << " vies sauvees." << endl;
         }
         
         cout << "==================================================\n" << endl;
