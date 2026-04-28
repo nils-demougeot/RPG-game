@@ -20,7 +20,7 @@ MonstreNormal::MonstreNormal(string nom, int hp, int attaque, int defense, int m
     cout << "Mercy : " << mercyActuel << "/" << mercyObjectif << endl;
     cout << "Statut actuel : " << (statut.empty() ? "En combat" : statut) << endl;
     
-    cout << "Actions disponibles (" << actions.size() << "/4) :" << endl;
+    cout << "Actions disponibles (" << actions.size() << "/2) :" << endl;
     if (actions.empty()) {
         cout << "  (Aucune action pour le moment)" << endl;
     } else {

@@ -53,12 +53,12 @@ void Jeu::demarrerJeu() {
 
         cout << "Chargement des donnees reussi !" << endl;
 
-        // --- DEBUT DU TEST ---
-        cout << "\n===== TEST VERIFICATION DES MONSTRES =====" << endl;
+        // --- DEBUT DU TEST AFFICHAGE DES MONSTRES ---
+        /*cout << "\n===== TEST VERIFICATION DES MONSTRES =====" << endl;
         for (Monstre* m : monstres) {
             m->afficherMonstre(); 
         }
-        cout << "==========================================" << endl;
+        cout << "==========================================" << endl;*/
         // --- FIN DU TEST ---
 
         int choix;
@@ -459,7 +459,7 @@ void Jeu::chargerItems(string nomFichier) {
             int quantite = std::stoi(quantiteStr);
 
             Item* item = new Item(nom, type, valeur, quantite, rareteStr);
-            poolItems.push_back(item); // Explication requise
+            poolItems.push_back(item);
 
         } catch (const std::invalid_argument& e) {
             std::cout << "Valeur invalide (items) ignoree à la ligne " << ligneNum << " : " << ligne << std::endl;
