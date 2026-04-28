@@ -39,7 +39,7 @@ void Jeu::initialiserCatalogue() {
     catalogueActions["REASON"] = new ActionACT("REASON", "Tu tentes une approche diplomatique.", 20);
     catalogueActions["DANCE"] = new ActionACT("DANCE", "Tu executes une petite danse de la paix.", 10);
 
-    // Actions négatives (exigées par le sujet)
+    // Actions négatives
     catalogueActions["INSULT"] = new ActionACT("INSULT", "Tu traites le monstre de sac a puces !", -20);
     catalogueActions["MOCK"] = new ActionACT("MOCK", "Tu te moques ouvertement de sa posture de combat.", -15);
 }
@@ -550,14 +550,13 @@ void Jeu::chargerMonstres(string nomFichier) {
 void Jeu::verifierConditionFin() {
 
     if (victoires >= 10) {
-        enCours = false; // Cela va casser la boucle du menu principal et terminer le jeu
+        enCours = false;
         
         cout << "\n==================================================" << endl;
         cout << "                  FIN DE L'AVENTURE                 " << endl;
         cout << "==================================================" << endl;
 
         // Récupération des statistiques du joueur
-        // (Assure-toi d'avoir ces deux getters dans ta classe Joueur)
         int tues = joueur->getNbMonstresTues();
         int epargnes = joueur->getNbMonstresEpargnes();
 
