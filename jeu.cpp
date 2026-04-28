@@ -136,7 +136,7 @@ void Jeu::demarrerCombat() {
     while (combatEnCours) {
 
         cout << "\n==================================================" << endl;
-        cout << ">>>          TOUR " << numTour << " <<<" << endl;
+        cout << ">>>               TOUR " << numTour << "               <<<" << endl;
         cout << "\n==================================================\n" << endl;
         
         cout << "[ JOUEUR : " << joueur->getNom() 
@@ -361,6 +361,7 @@ void Jeu::demarrerCombat() {
             cout << "\n(Appuyez sur Entree pour continuer...)" << endl;
             cin.ignore(10000, '\n');
             cin.get();
+            numTour++;
         }
     }
 }
