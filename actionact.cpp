@@ -13,7 +13,7 @@ void ActionACT::executer(Monstre* m) {
     m->modifierMercy(impactMercy);
 
     if (m->peutEtreEpargne()) {
-        cout << "\n!!! Le monstre semble prêt à t'écouter. Tu peux essayer de l'épargner (MERCY) !" << endl;
+        cout << "\n!!! Le monstre semble pret à t'ecouter. Tu peux essayer de l'epargner (MERCY) !" << endl;
     }
 }
 

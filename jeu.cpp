@@ -136,7 +136,7 @@ void Jeu::demarrerCombat() {
     while (combatEnCours) {
 
         cout << "\n==================================================" << endl;
-        cout << ">>>               TOUR " << numTour << "               <<<" << endl;
+        cout << ">>>                   TOUR " << numTour << "                   <<<" << endl;
         cout << "\n==================================================\n" << endl;
         
         cout << "[ JOUEUR : " << joueur->getNom() 
@@ -347,7 +347,7 @@ void Jeu::demarrerCombat() {
         if (degatsMonstre == 0) {
             cout << adversaire->getNom() << " trebuche et rate son attaque !" << endl;
         } else {
-            cout << adversaire->getNom() << " t'attaque et t'inflige " << degatsMonstre << " degats !" << endl;
+            cout << adversaire->getNom() << " t'attaque et t'inflige [" << degatsMonstre << "] degats !" << endl;
             joueur->recevoirDegats(degatsMonstre);
         }
 
