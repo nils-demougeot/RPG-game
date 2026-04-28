@@ -112,6 +112,8 @@ void Jeu::afficherMenuPrincipal() {
     cout << "4. Items" << endl;
     cout << "0. Quitter" << endl;
     cout << "Votre choix : ";
+
+    cout << "\n==================================================\n" << endl;
 }
 
 void Jeu::demarrerCombat() {
@@ -283,6 +285,8 @@ void Jeu::demarrerCombat() {
                     cout << "\n" << adversaire->getNom() << " te regarde d'un air menacant. Il ne veut pas encore s'arreter !" << endl;
                     cout << "(Astuce : Utilise ACT pour faire monter sa jauge de Mercy a " << adversaire->getMercyObjectif() << ")" << endl;
                 }
+
+                listeBestiaire.push_back("[EPARGNE] " + adversaire->getNom() + " (" + adversaire->getCategorie() + ")");
                 break;
             default:
                 cout << "Choix invalide, tu perds ton tour !" << endl;
@@ -312,6 +316,9 @@ void Jeu::demarrerCombat() {
             }
 
             combatEnCours = false;
+
+            listeBestiaire.push_back("[TUE] " + adversaire->getNom() + " (" + adversaire->getCategorie() + ")");
+
             continue;
         }
 
@@ -539,9 +546,47 @@ void Jeu::chargerMonstres(string nomFichier) {
 }
 
 
-void Jeu::verifierConditionFin() {}
+void Jeu::verifierConditionFin() {
 
-void Jeu::afficherBestiaire(){
-    cout << "--- BESTIAIRE ---" << endl;
-    cout << "Aucun monstre vaincu pour le moment." << endl;
+    if (victoires >= 10) {
+        enCours = false; // Cela va casser la boucle du menu principal et terminer le jeu
+        
+        cout << "\n==================================================" << endl;
+        cout << "                  FIN DE L'AVENTURE                 " << endl;
+        cout << "==================================================" << endl;
+
+        // Récupération des statistiques du joueur
+        // (Assure-toi d'avoir ces deux getters dans ta classe Joueur)
+        int tues = joueur->getNbMonstresTues();
+        int epargnes = joueur->getNbMonstresEpargnes();
+
+        if (tues == 0) {
+            cout << "*** FIN PACIFISTE ***" << endl;
+            cout << "Tu as un coeur en or. Tu n'as blesse aucun monstre !" << endl;
+        } 
+        else if (epargnes == 0) {
+            cout << "*** FIN GENOCIDAIRE ***" << endl;
+            cout << "Tu es le veritable monstre... Tu as extermine tout le monde." << endl;
+        } 
+        else {
+            cout << "*** FIN NEUTRE ***" << endl;
+            cout << "Tu as survecu, mais a quel prix ? (" << tues << " monstres tues, " << epargnes << " epargnes)." << endl;
+        }
+        
+        cout << "==================================================\n" << endl;
+    }
+}
+
+void Jeu::afficherBestiaire() {
+    cout << "\n=================== BESTIAIRE ===================\n" << endl;
+
+    if (listeBestiaire.empty()) {
+        cout << "Votre carnet est vide. Partez a l'aventure pour le remplir !" << endl;
+    } else {
+        for (const string& phrase : listeBestiaire) {
+            cout << "- " << phrase << endl;
+        }
+    }
+    
+    cout << "\n=================================================\n" << endl;
 }

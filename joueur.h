@@ -28,11 +28,14 @@ public:
     void soigner(int montant);
     void afficherStatistiques() const;
     void afficherInventaire() const;
-    void ajouterMonstreTue() { monstresTues++; }
-    void ajouterMonstreEpargne() { monstresEpargnes++; }
-    int getHpMax() const { return hpMax; }
+    void ajouterMonstreTue();
+    void ajouterMonstreEpargne();
+    int getHpMax() const;
     void ajouterItem(Item* item);
     vector<Item*>& getInventaire();
     void augmenterAtk(int val);
     void augmenterDef(int val);
+
+    int getNbMonstresTues() const;
+    int getNbMonstresEpargnes() const;
 };

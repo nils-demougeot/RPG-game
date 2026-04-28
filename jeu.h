@@ -20,7 +20,7 @@ private:
     bool enCours;
     int victoires;
     vector<Item*> poolItems;
-    
+    vector<string> listeBestiaire;
     
     Joueur* joueur; 
     vector<Monstre*> monstres;     

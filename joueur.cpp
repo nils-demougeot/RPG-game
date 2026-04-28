@@ -12,6 +12,12 @@ int Joueur::getAtk() const { return attaque; }
 
 int Joueur::getDef() const { return defense; }
 
+int Joueur::getNbMonstresTues() const {return monstresTues;}
+
+int Joueur::getNbMonstresEpargnes() const {return monstresEpargnes;}
+
+int Joueur::getHpMax() const {return hpMax;}
+
 void Joueur::recevoirDegats(int montant) {
     hpActuel -= montant;
     if (hpActuel < 0) hpActuel = 0;
@@ -30,7 +36,7 @@ void Joueur::afficherStatistiques() const {
 }
 
 void Joueur::afficherInventaire() const {
-    cout << "\n=== INVENTAIRE ===" << endl;
+    cout << "\n================ INVENTAIRE ================" << endl;
 
     if (inventaire.empty()) {
         cout << "Inventaire vide." << endl;
@@ -64,4 +70,13 @@ void Joueur::augmenterAtk(int val) {
 
 void Joueur::augmenterDef(int val) {
     defense += val;
+}
+
+
+void Joueur::ajouterMonstreTue() {
+    monstresTues++;
+}
+
+void Joueur::ajouterMonstreEpargne() {
+    monstresEpargnes++;
 }
