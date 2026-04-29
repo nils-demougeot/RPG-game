@@ -43,3 +43,11 @@ int Monstre::getDef() const {
 int Monstre::getMercyObjectif() const {
     return mercyObjectif;
 }
+
+void Monstre::reinitialiser() {
+    hp = hpMax;
+    
+    if (categorie == "NORMAL") mercyActuel = 50;
+    else if (categorie == "MINIBOSS") mercyActuel = 30;
+    else if (categorie == "BOSS") mercyActuel = 10;
+}

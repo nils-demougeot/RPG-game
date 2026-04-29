@@ -33,6 +33,7 @@ void Joueur::afficherStatistiques() const {
     cout << "HP: " << hpActuel << "/" << hpMax << endl;
     cout << "ATK: " << attaque << " | DEF: " << defense << endl;
     cout << "Tues: " << monstresTues << " | Epargnes: " << monstresEpargnes << endl;
+    
 }
 
 void Joueur::afficherInventaire() const {

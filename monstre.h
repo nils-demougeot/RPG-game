@@ -29,6 +29,7 @@ public:
     int getDef() const;
     
     int getMercyObjectif() const;
+    void reinitialiser();
     void recevoirDegats(int montant);
     void modifierMercy(int montant);
     bool estVaincu() const;

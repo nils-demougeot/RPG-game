@@ -46,12 +46,36 @@ void Jeu::initialiserCatalogue() {
 
 void Jeu::demarrerJeu() {
     try {
+        string nomSaisi;
+        cout << "Bienvenue dans ALTERDUNE !" << endl;
+        cout << "Veuillez saisir le nom de votre personnage : ";
+        cin >> nomSaisi;
+        
+        joueur = new Joueur(nomSaisi, 100);
+
         chargerItems("items.csv");
         chargerMonstres("monstres.csv");
 
         donnerItemsDeDepart();
 
         cout << "Chargement des donnees reussi !" << endl;
+
+        cout << "\n========== RESUME DU PERSONNAGE ==========" << endl;
+        cout << "Nom du joueur : " << joueur->getNom() << endl; // [cite: 1, 32]
+        cout << "Points de vie : " << joueur->getHpActuel() << " / " << joueur->getHpMax() << " HP" << endl; // [cite: 1, 33]
+        
+        cout << "Inventaire initial :" << endl;
+        // La consigne demande le nom et la quantité [cite: 1, 34]
+        // Tu peux réutiliser ta méthode existante ou faire une boucle simple :
+        vector<Item*>& inv = joueur->getInventaire();
+        if (inv.empty()) {
+            cout << "  (Aucun objet)" << endl;
+        } else {
+            for (Item* item : inv) {
+                cout << "  - " << item->getNom() << " (Quantite : " << item->getQuantite() << ")" << endl;
+            }
+        }
+        cout << "==========================================\n" << endl;
 
         // --- DEBUT DU TEST AFFICHAGE DES MONSTRES ---
         /*cout << "\n===== TEST VERIFICATION DES MONSTRES =====" << endl;
@@ -79,12 +103,40 @@ void Jeu::demarrerJeu() {
                 case 3:
                     cout << "Statistiques du joueur..." << endl;
                     joueur->afficherStatistiques();
+                    cout << "Victoires: " << victoires << " / 10" << endl;
                     break;
 
-                case 4:
+                case 4:{
                     joueur->afficherInventaire();
-                    break;
+                    vector<Item*>& inv = joueur->getInventaire();
+                    
+                    if (inv.empty()) {
+                        break;
+                    }
 
+                    cout << "Quel item souhaitez-vous utiliser ? (Entrez l'indice ou -1 pour annuler) : ";
+                    int choixItem;
+                    cin >> choixItem;
+
+                    if (choixItem >= 0 && choixItem < (int)inv.size()) {
+                        Item* item = inv[choixItem];
+                        
+                        if (item->getQuantite() > 0) {
+                            if (item->getType() == "HEAL") { 
+                                joueur->soigner(item->getValeur()); 
+                                cout << "\nUtilisation de " << item->getNom() << " !" << endl;
+                                cout << "Tu recuperes " << item->getValeur() << " HP." << endl;
+                                
+                                item->reduireQuantite();
+                            } else {
+                                cout << "\nCet item (" << item->getType() << ") ne peut pas etre utilise hors combat." << endl;
+                            }
+                        } else {
+                            cout << "\nCet item n'est plus disponible !" << endl;
+                        }
+                    }
+                    break;
+                }
                 case 0:
                     enCours = false;
                     cout << "Fermeture du jeu..." << endl;
@@ -127,6 +179,8 @@ void Jeu::demarrerCombat() {
     uniform_int_distribution<> distMonstre(0, monstres.size() - 1);
     
     Monstre* adversaire = monstres[distMonstre(gen)];
+
+    adversaire->reinitialiser();
 
     cout << "\nUn " << adversaire->getNom() << " (" << adversaire->getCategorie() << ") sauvage apparait !" << endl;
 
@@ -286,7 +340,11 @@ void Jeu::demarrerCombat() {
                     cout << "(Astuce : Utilise ACT pour faire monter sa jauge de Mercy a " << adversaire->getMercyObjectif() << ")" << endl;
                 }
 
-                listeBestiaire.push_back("[EPARGNE] " + adversaire->getNom() + " (" + adversaire->getCategorie() + ")");
+                listeBestiaire.push_back("[EPARGNE] " + adversaire->getNom() + 
+                                         " (" + adversaire->getCategorie() + ")" +
+                                         " | HP max: " + to_string(adversaire->getHpMax()) + 
+                                         ", ATK: " + to_string(adversaire->getAtk()) + 
+                                         ", DEF: " + to_string(adversaire->getDef()));
                 break;
             default:
                 cout << "Choix invalide, tu perds ton tour !" << endl;
@@ -316,8 +374,12 @@ void Jeu::demarrerCombat() {
             }
 
             combatEnCours = false;
-
-            listeBestiaire.push_back("[TUE] " + adversaire->getNom() + " (" + adversaire->getCategorie() + ")");
+            
+            listeBestiaire.push_back("[TUE] " + adversaire->getNom() + 
+                                     " (" + adversaire->getCategorie() + ")" +
+                                     " | HP max: " + to_string(adversaire->getHpMax()) + 
+                                     ", ATK: " + to_string(adversaire->getAtk()) + 
+                                     ", DEF: " + to_string(adversaire->getDef()));
 
             continue;
         }
